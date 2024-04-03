@@ -34,7 +34,7 @@ const getProducts = async (req, res) => {
     const products = await Product.findAll({
       include: {
         model: Brand,
-        atributes: ["name", "logo_url"],
+        attributes: ["name", "logo_url"],
       },
     });
     res.status(200).json(products);
@@ -49,7 +49,7 @@ const getProduct = async (req, res) => {
     const product = await Product.findByPk(id, {
       include: {
         model: Brand,
-        atributes: ["name", "logo_url"],
+        attributes: ["name", "logo_url"],
       },
     });
     res.status(200).json(product);
