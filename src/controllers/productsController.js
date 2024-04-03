@@ -29,4 +29,18 @@ const createProduct = async (req, res) => {
   }
 };
 
-module.exports = { createProduct };
+const getProducts = async (req, res) => {
+  try {
+    const products = await Product.findAll({
+      include: {
+        model: Brand,
+        atributes: ["name", "logo_url"],
+      },
+    });
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { createProduct, getProducts };
