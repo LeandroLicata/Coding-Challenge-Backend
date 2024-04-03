@@ -4,6 +4,13 @@ const createProduct = async (req, res) => {
   try {
     const { name, description, image_url, price, brand } = req.body;
 
+    const existingProduct = await Product.findOne({ where: { name } });
+    if (existingProduct) {
+      return res
+        .status(400)
+        .json({ error: "Ya existe un producto con el mismo nombre" });
+    }
+
     const newProduct = await Product.create({
       name,
       description,
@@ -55,6 +62,10 @@ const getProduct = async (req, res) => {
       },
     });
 
+    if (!product) {
+      return res.status(404).json({ error: "Producto no encontrado" });
+    }
+
     res.status(200).json(product);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -69,7 +80,7 @@ const updateProduct = async (req, res) => {
     const product = await Product.findByPk(id);
 
     if (!product) {
-      return res.status(404).json({ error: "Product not found" });
+      return res.status(404).json({ error: "Producto no encontrado" });
     }
 
     if (name) {
@@ -112,12 +123,12 @@ const deleteProduct = async (req, res) => {
     const product = await Product.findByPk(id);
 
     if (!product) {
-      return res.status(404).json({ error: "Product not found" });
+      return res.status(404).json({ error: "Producto no encontrado" });
     }
 
     await product.destroy();
 
-    res.status(200).json({ message: "Product deleted successfully" });
+    res.status(200).json({ message: "Producto borrado exitosamente" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
