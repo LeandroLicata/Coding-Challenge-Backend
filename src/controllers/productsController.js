@@ -43,4 +43,19 @@ const getProducts = async (req, res) => {
   }
 };
 
-module.exports = { createProduct, getProducts };
+const getProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findByPk(id, {
+      include: {
+        model: Brand,
+        atributes: ["name", "logo_url"],
+      },
+    });
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { createProduct, getProducts, getProduct };
