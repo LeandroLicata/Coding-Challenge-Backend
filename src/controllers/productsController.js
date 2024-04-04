@@ -24,7 +24,7 @@ const createProduct = async (req, res) => {
       });
 
       if (productBrand) {
-        await newProduct.addBrand(productBrand);
+        await newProduct.update({ BrandId: productBrand.id });
       } else {
         console.log("La marca proporcionada no existe en la base de datos.");
       }
