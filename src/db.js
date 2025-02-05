@@ -8,6 +8,12 @@ const UserModel = require("./models/User");
 
 const sequelize = new Sequelize(DB_URL, {
   logging: false,
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false, // Necesario para Supabase
+    },
+  },
 });
 
 ProductModel(sequelize);
